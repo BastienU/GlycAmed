@@ -1,0 +1,39 @@
+{
+  "compilerOptions": {
+    /* === Layout des fichiers === */
+    "rootDir": "./src",
+    "outDir": "./dist",
+
+    /* === Environnement Node.js === */
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "target": "ES2022",
+    "lib": ["ES2022"],
+    "types": ["node"],
+
+    /* === Options de génération === */
+    "sourceMap": true,
+    "declaration": true,
+    "declarationMap": true,
+
+    /* === Vérifications de typage === */
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "skipLibCheck": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+
+    /* === Style et fiabilité === */
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true,
+    "noUncheckedSideEffectImports": true,
+    "moduleDetection": "force",
+
+    /* === JSX (non nécessaire pour le backend, mais toléré) === */
+    "jsx": "react-jsx"
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
+}
+
