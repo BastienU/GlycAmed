@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
-import { User } from "../models/user.model";
-import { generateToken } from "../utils/token";
+import { User } from "@models/user.model";
+import { generateToken } from "@utils/token";
 
 export const registerUser = async (name: string, email: string, password: string) => {
   const existing = await User.findOne({ email });
