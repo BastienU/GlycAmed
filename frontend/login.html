@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Page de connexion GlycAmed">
+  <title>Connexion | GlycAmed</title>
+  <link rel="stylesheet" href="/frontend/css/login.css">
+  <link rel="shortcut icon" href="assets/Logo_glycamed.svg" type="image/x-icon">
+</head>
+<body>
+  <header>
+        <nav>
+            <a href="/frontend/css/login.css">
+                <img src="./assets/Logo_glycamed.png" alt="Logo_glycamed">
+            </a>
+            <div class="links">
+                <a href="./index.html">Accueil</a>
+                <a href="./autrepage.html">Ajouter une consommation</a>
+                <a href="./autrepage.html">Historique</a>
+                <a href="./autrepage.html">Statistiques</a>
+                <a href="./autrepage.html">Rapport</a>
+                <a href="./autrepage.html">Classement</a>
+            </div>
+            <button><a href="login.html">Login</a></button>
+        </nav>
+    </header>
+
+  <main>
+    <h1>Formulaire de connexion</h1>
+
+    <form class="login-form">
+      <div class="form-group">
+        <label for="email">Email :</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Mot de passe :</label>
+        <input type="password" id="password" name="password" required>
+      </div>
+
+      <button type="submit" class="login-btn">Se connecter</button>
+
+      <p class="register-text">
+        Pas encore de compte ?<br>
+        <button type="button" class="register-btn" onclick="window.location.href='register.html'">Cliquez ici</button>
+      </p>
+    </form>
+  </main>
+</body>
+</html>

@@ -1,0 +1,171 @@
+/* Reset CSS */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  font-family: Arial, sans-serif;
+  background-color: #ffffff;
+}
+
+/* Navbar */
+nav {
+  background-color: rgb(77, 160, 243);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Logo */
+nav img {
+  height: 50px;
+}
+
+/* Links of the menu */
+.links {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.links a {
+  text-decoration: none;
+  color: white;
+  font-size: 20px;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.links a:hover {
+  color: #eaf5ff;
+}
+
+/* Login button */
+nav button {
+  background-color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  margin-left: 20px;
+  margin-right: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+nav button:hover {
+  background-color: rgb(230, 244, 255);
+}
+
+nav button a {
+  text-decoration: none;
+  color: rgb(77, 160, 243);
+  font-weight: bold;
+}
+
+/* Main content*/
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 120px;
+  padding: 20px;
+}
+
+/* Main title */
+main h1 {
+  color: rgb(77, 160, 243);
+  margin-bottom: 30px;
+  font-size: 2rem;
+  text-align: center;
+}
+
+/* Form */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background-color: #f4f9ff;
+  padding: 30px 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 350px;
+}
+
+/* Label group + input */
+.form-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+}
+
+/* Label */
+.form-group label {
+  flex: 0 0 45%;
+  white-space: nowrap;
+  text-align: right;
+  font-weight: 500;
+  color: #333;
+}
+
+/* Input */
+.form-group input {
+  flex: 1;
+  min-width: 0;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+/* Button "Se connecter" */
+.login-btn {
+  background-color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  cursor: pointer;
+  color: rgb(77, 160, 243);
+  font-weight: bold;
+  transition: background-color 0.2s ease;
+}
+
+.login-btn:hover {
+  background-color: rgb(230, 244, 255);
+}
+
+/* Text under the button */
+.register-text {
+  text-align: center;
+  color: #333;
+  font-size: 0.9rem;
+  margin-top: 10px;
+}
+
+.register-btn {
+  background-color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 6px 12px;
+  color: rgb(77, 160, 243);
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 6px;
+  transition: background-color 0.2s ease;
+}
+
+.register-btn:hover {
+  background-color: rgb(230, 244, 255);
+}
