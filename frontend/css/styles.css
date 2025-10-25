@@ -1,0 +1,62 @@
+/* Reset CSS */
+html {
+    background-color: #ffffff;
+    font-size: 1.6rem;
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    max-width: 100%;
+    margin: 0;
+}
+
+/* Navbar */
+nav {
+    background-color: rgb(77, 160, 243);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+}
+
+/* Logo */
+nav img {
+    height: 50px;
+}
+
+/* Links of the menu */
+.links {
+    display: flex;
+    gap: 20px;
+    margin-right: 20px;
+}
+
+.links a {
+    text-decoration: none;
+    color: white;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+/* Login button */
+nav button {
+  background-color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  margin-left: 20px;
+  margin-right: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+nav button:hover {
+  background-color: rgb(230, 244, 255);
+}
+
+nav button a {
+  text-decoration: none;
+  color: rgb(77, 160, 243);
+  font-weight: bold;
+}
