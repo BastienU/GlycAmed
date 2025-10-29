@@ -169,3 +169,8 @@ main h1 {
 .login-btn:hover {
   background-color: rgb(230, 244, 255);
 }
+
+.login-btn a {
+  text-decoration: none;
+  color: rgb(77, 160, 243);
+}
