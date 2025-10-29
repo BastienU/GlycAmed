@@ -6,7 +6,6 @@
     <meta name="description" content="The web application for reporting all the drinks you see Amed drinking">
     <title>GlycAmed</title>
     <link rel="stylesheet" href="/frontend/css/resetCSSAndNavbar.css">
-    <link rel="stylesheet" href="/frontend/css/addConsumption.css">
     <link rel="shortcut icon" href="assets/Logo_glycamed.svg" type="image/x-icon">
 </head>
 <body>
@@ -25,23 +24,5 @@
             <button><a href="login.html">Logout</a></button>
         </nav>
     </header>
-
-    <main>
-        <h1>Formulaire d'ajout de consommation d'Amed</h1>
-
-        <form class="consumption-form">
-        <div class="form-group">
-            <label for="product">Produit :</label>
-            <input type="text" id="product" name="product" required>
-        </div>
-
-        <div class="form-group">
-            <label for="datetime">Heure :</label>
-            <input type="datetime" id="datetime" name="datetime" required>
-        </div>
-
-        <button type="submit" class="consumption-btn">Valider</button>
-        </form>
-    </main>
 </body>
 </html>
