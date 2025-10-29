@@ -17,13 +17,11 @@ nav {
   align-items: center;
   justify-content: space-between;
   padding: 10px 20px;
-
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   z-index: 1000;
-
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
@@ -168,4 +166,9 @@ main h1 {
 
 .register-btn:hover {
   background-color: rgb(230, 244, 255);
+}
+
+.register-btn a {
+  text-decoration: none;
+  color: rgb(77, 160, 243);
 }
