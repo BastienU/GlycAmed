@@ -16,7 +16,7 @@ main h1 {
 }
 
 /* Form */
-.login-form {
+.consumption-form {
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -55,8 +55,8 @@ main h1 {
   font-size: 1rem;
 }
 
-/* Button "Se connecter" */
-.login-btn {
+/* Button "Valider" */
+.consumption-btn {
   background-color: white;
   border: none;
   border-radius: 8px;
@@ -67,35 +67,6 @@ main h1 {
   transition: background-color 0.2s ease;
 }
 
-.login-btn:hover {
+.consumption-btn:hover {
   background-color: rgb(230, 244, 255);
-}
-
-/* Text under the button */
-.register-text {
-  text-align: center;
-  color: #333;
-  font-size: 0.9rem;
-  margin-top: 10px;
-}
-
-.register-btn {
-  background-color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 6px 12px;
-  color: rgb(77, 160, 243);
-  font-weight: bold;
-  cursor: pointer;
-  margin-top: 6px;
-  transition: background-color 0.2s ease;
-}
-
-.register-btn:hover {
-  background-color: rgb(230, 244, 255);
-}
-
-.register-btn a {
-  text-decoration: none;
-  color: rgb(77, 160, 243);
 }
