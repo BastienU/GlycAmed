@@ -1,0 +1,72 @@
+/* Main content*/
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 120px;
+  padding: 20px;
+}
+
+/* Main title */
+main h1 {
+  color: rgb(77, 160, 243);
+  margin-bottom: 30px;
+  font-size: 2rem;
+  text-align: center;
+}
+
+/* Form */
+.consumption-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background-color: #f4f9ff;
+  padding: 30px 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 350px;
+}
+
+/* Label group + input */
+.form-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+}
+
+/* Label */
+.form-group label {
+  flex: 0 0 45%;
+  white-space: nowrap;
+  text-align: right;
+  font-weight: 500;
+  color: #333;
+}
+
+/* Input */
+.form-group input {
+  flex: 1;
+  min-width: 0;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+/* Button "Valider" */
+.consumption-btn {
+  background-color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  cursor: pointer;
+  color: rgb(77, 160, 243);
+  font-weight: bold;
+  transition: background-color 0.2s ease;
+}
+
+.consumption-btn:hover {
+  background-color: rgb(230, 244, 255);
+}
