@@ -70,3 +70,24 @@ nav button a {
   color: rgb(77, 160, 243);
   font-weight: bold;
 }
+
+/* Alert Messages */
+.alert {
+  padding: 12px 16px;
+  margin: 10px 0;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.alert-success {
+  background-color: #d4f7d4;
+  border: 1px solid #7ac97a;
+  color: #2f662f;
+}
+
+.alert-error {
+  background-color: #ffd8d8;
+  border: 1px solid #c75252;
+  color: #8b2c2c;
+}
