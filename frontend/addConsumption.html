@@ -23,6 +23,11 @@
                 <a href="./ranking.html">Classement</a>
             </div>
             <button><a href="login.html">Logout</a></button>
+            <div class="burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
         </nav>
     </header>
 
@@ -30,18 +35,31 @@
         <h1>Formulaire d'ajout de consommation d'Amed</h1>
 
         <form class="consumption-form">
-        <div class="form-group">
-            <label for="product">Produit :</label>
-            <input type="text" id="product" name="product" required>
-        </div>
+            <div class="form-group">
+                <label for="product">Produit :</label>
+                <input type="text" id="product" name="product" required>
+            </div>
 
-        <div class="form-group">
-            <label for="datetime">Heure :</label>
-            <input type="datetime" id="datetime" name="datetime" required>
-        </div>
+            <div class="form-group">
+                <label for="quantity">Quantité (en ml) :</label>
+                <input type="text" id="quantity" name="quantity" required>
+            </div>
 
-        <button type="submit" class="consumption-btn">Valider</button>
+            <div class="form-group">
+                <label for="datetime">Heure :</label>
+                <input type="datetime" id="datetime" name="datetime" required>
+            </div>
+
+            <button type="submit" class="consumption-btn">Valider</button>
         </form>
     </main>
+    <script>
+        const burger = document.querySelector('.burger');
+        const links = document.querySelector('.links');
+
+        burger.addEventListener('click', () => {
+            links.classList.toggle('open');
+        });
+    </script>
 </body>
 </html>

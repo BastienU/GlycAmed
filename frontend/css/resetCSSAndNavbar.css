@@ -71,6 +71,35 @@ nav button a {
   font-weight: bold;
 }
 
+section {
+  padding-top: 90px;
+  text-align: center;
+}
+
+.hero-content a {
+  background-color: rgb(77, 160, 243);
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  margin-top: 20px;
+  display: inline-block;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+table {
+  width: 80%;
+  margin: 50px auto;
+  border-collapse: collapse;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: left;
+}
+
 /* Alert Messages */
 .alert {
   padding: 12px 16px;
@@ -90,4 +119,53 @@ nav button a {
   background-color: #ffd8d8;
   border: 1px solid #c75252;
   color: #8b2c2c;
+}
+
+
+/* ------- BURGER (caché sur desktop) ------- */
+.burger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.burger span {
+  width: 28px;
+  height: 3px;
+  background: white;
+  border-radius: 2px;
+}
+
+/* ------- MODE MOBILE ------- */
+@media (max-width: 768px) {
+
+  /* Cache les liens de la navbar en mode mobile */
+  .links {
+    display: none;
+    position: absolute;
+    top: 70px;
+    right: 0;
+    background-color: rgb(77, 160, 243);
+    padding: 20px;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  }
+
+  /* Affiche le burger */
+  .burger {
+    display: flex;
+  }
+
+  /* STYLE DU MENU OUVERT */
+  .links.open {
+    display: flex;
+  }
+
+  nav button {
+    margin: 10px 10px 10px auto;
+  }
 }
