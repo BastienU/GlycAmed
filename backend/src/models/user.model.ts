@@ -2,16 +2,18 @@ import mongoose, { Schema, Document, Types } from "mongoose";
 
 export interface IUser extends Document {
   _id: Types.ObjectId; // 👈 ajoute explicitement le type ObjectId
-  name: string;
   email: string;
   password: string;
+  prenom: string;
+  nom: string;
 }
 
 const userSchema = new Schema<IUser>(
   {
-    name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
-    password: { type: String, required: true }
+    password: { type: String, required: true },
+    prenom: { type: String, required: true },
+    nom: { type: String, required: true },
   },
   { timestamps: true }
 );

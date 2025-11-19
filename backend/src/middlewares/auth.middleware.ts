@@ -6,7 +6,7 @@ import { Request } from "express";
  * Interface pour étendre Request avec l'utilisateur décodé
  */
 export interface AuthRequest extends Request {
-  user?: string | JwtPayload; // JwtPayload contient l'id si tu l'as mis dans le token
+  user?: string | JwtPayload; // JwtPayload contient l'id
 }
 
 /**
