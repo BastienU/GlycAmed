@@ -122,7 +122,7 @@ th, td {
 }
 
 
-/* ------- BURGER (caché sur desktop) ------- */
+/* Burger menu (only on mobile) */
 .burger {
   display: none;
   flex-direction: column;
@@ -137,10 +137,10 @@ th, td {
   border-radius: 2px;
 }
 
-/* ------- MODE MOBILE ------- */
+/* Responsive for mobile */
 @media (max-width: 768px) {
 
-  /* Cache les liens de la navbar en mode mobile */
+  /* Hide navbar's links when mobile */
   .links {
     display: none;
     position: absolute;
@@ -155,12 +155,11 @@ th, td {
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
   }
 
-  /* Affiche le burger */
+  /* Display burger menu */
   .burger {
     display: flex;
   }
 
-  /* STYLE DU MENU OUVERT */
   .links.open {
     display: flex;
   }

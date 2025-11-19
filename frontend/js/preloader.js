@@ -3,9 +3,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const needle = document.querySelector(".aiguille");
 
   let progress = 0;
-  const loadingDuration = 2000; // 2 secondes simulées
-  const step = 50; // mise à jour toutes les 50ms
-  const maxRotation = 200; // rotation maximale de l'aiguille vers la droite
+  const loadingDuration = 2000; // 2 simulated seconds
+  const step = 50; // update every 50ms
+  const maxRotation = 200; // maximum needle rotation to the right
 
   const interval = setInterval(() => {
     progress += step;
