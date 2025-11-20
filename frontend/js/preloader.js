@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const needle = document.querySelector(".aiguille");
 
   let progress = 0;
-  const loadingDuration = 2000; // 2 simulated seconds
+  const loadingDuration = 1000; // 1 simulated seconds
   const step = 50; // update every 50ms
   const maxRotation = 200; // maximum needle rotation to the right
 
