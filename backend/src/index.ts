@@ -1,15 +1,24 @@
 import express from "express";
+import mongoose from "mongoose";
 import dotenv from "dotenv";
-import { connectDB } from "@config/db";
-import authRoutes from "@routes/auth.routes";
+import authRoutes from "./routes/auth.routes";
 
 dotenv.config();
-connectDB();
 
 const app = express();
 app.use(express.json());
 
+// Routes
 app.use("/api/auth", authRoutes);
 
+// MongoDB
+mongoose
+  .connect(process.env.MONGO_URI as string)
+  .then(() => console.log("DB connected"))
+  .catch((err: unknown) => {
+    if (err instanceof Error) console.error(err.message);
+  });
+
+// Start server
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`🚀 Serveur lancé sur le port ${PORT}`));
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
