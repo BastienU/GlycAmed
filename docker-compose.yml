@@ -3,9 +3,9 @@ services:
   backend:
     build: ./backend
     ports:
-      - "5000:5000"
+      - "3000:3000"
     env_file:
-      - ./backend/.env.example
+      - ./backend/.env
     depends_on:
       - mongo
 

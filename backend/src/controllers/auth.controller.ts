@@ -1,22 +1,40 @@
 import { Request, Response } from "express";
-import { registerUser, loginUser } from "@services/auth.service";
+import { AuthService } from "../services/auth.service";
 
-export const register = async (req: Request, res: Response) => {
-  try {
-    const { name, email, password } = req.body;
-    const data = await registerUser(name, email, password);
-    res.status(201).json(data);
-  } catch (err: any) {
-    res.status(400).json({ message: err.message });
-  }
-};
+const authService = new AuthService();
 
-export const login = async (req: Request, res: Response) => {
-  try {
-    const { email, password } = req.body;
-    const data = await loginUser(email, password);
-    res.status(200).json(data);
-  } catch (err: any) {
-    res.status(400).json({ message: err.message });
+interface RegisterBody {
+  firstname: string;
+  lastname: string;
+  email: string;
+  password: string;
+}
+
+interface LoginBody {
+  email: string;
+  password: string;
+}
+
+export class AuthController {
+  async register(req: Request<unknown, unknown, RegisterBody>, res: Response): Promise<void> {
+    try {
+      const user = await authService.register(req.body);
+      res.status(201).json({ message: "User created", user });
+    } catch (err) {
+      if (err instanceof Error) res.status(400).json({ error: err.message });
+      else res.status(400).json({ error: "Unknown error" });
+    }
   }
-};
+
+  async login(req: Request<unknown, unknown, LoginBody>, res: Response): Promise<void> {
+    try {
+      const { email, password } = req.body;
+      const result = await authService.login(email, password);
+      res.status(200).json(result);
+    } catch (err) {
+      if (err instanceof Error) res.status(400).json({ error: err.message });
+      else res.status(400).json({ error: "Unknown error" });
+    }
+  }
+}
+
