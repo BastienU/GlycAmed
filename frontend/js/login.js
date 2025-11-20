@@ -1,34 +1,29 @@
 const form = document.querySelector(".login-form");
 
-form.addEventListener("submit", async function (e) {
-  e.preventDefault();
+form.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-  const email = document.querySelector("#email").value;
-  const password = document.querySelector("#password").value;
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
 
-  try {
-    const response = await fetch("http://localhost:3000/api/auth/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ email, password })
-    });
+    try {
+        const response = await fetch("http://localhost:3000/api/auth/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, password })
+        });
 
-    const data = await response.json();
+        const data = await response.json();
 
-    if (!response.ok) {
-      alert(data.message || "Erreur de connexion");
-      return;
+        if (response.ok) {
+            localStorage.setItem("token", data.token);
+            localStorage.setItem("user", JSON.stringify(data.user));
+            window.location.href = "index.html";
+        } else {
+            alert(data.error || "Login échoué");
+        }
+    } catch (err) {
+        console.error(err);
+        alert("Erreur réseau");
     }
-
-    localStorage.setItem("token", data.token); // store token
-    window.location.href = "index.html";
-
-    console.log("User logged in:", data.user);
-
-  } catch (err) {
-    console.error(err);
-    alert("Connexion au serveur impossible");
-  }
 });

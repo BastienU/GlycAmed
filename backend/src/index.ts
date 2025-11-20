@@ -3,7 +3,8 @@ import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
 import authRoutes from "./routes/auth.routes";
-import productRoutes from "./routes/product.routes";
+import consumptionRoutes from "./routes/consumption.route";
+import productRoutes from './routes/product.routes';
 
 dotenv.config();
 
@@ -16,11 +17,12 @@ app.use(cors({
 }));
 app.use(express.json());
 
-// Routes
-app.use("/api/auth", authRoutes);
-app.use("/api/products", productRoutes);
 
-// MongoDB
+app.use("/api/auth", authRoutes);
+app.use('/api/consumption', consumptionRoutes);
+app.use('/api/products', productRoutes);
+
+
 mongoose
   .connect(process.env.MONGO_URI as string)
   .then(() => console.log("DB connected"))
@@ -28,6 +30,6 @@ mongoose
     if (err instanceof Error) console.error(err.message);
   });
 
-// Start server
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
