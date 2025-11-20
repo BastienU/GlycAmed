@@ -22,7 +22,54 @@
                 <a href="./ranking.html">Classement</a>
             </div>
             <button><a href="login.html">Logout</a></button>
+            <div class="burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
         </nav>
     </header>
+    <main>
+        <h1>Classement des utilisateurs</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Rang</th>
+                    <th>Utilisateur</th>
+                    <th>Points</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>hiren.patel@my-digital-school.org</td>
+                    <td>2300</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>josephe.fine@my-digital-school.org</td>
+                    <td>1500</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>john.wait@@my-digital-school.org</td>
+                    <td>1200</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>celian.lebacle@my-digital-school.org</td>
+                    <td>1100</td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+    <script>
+        const burger = document.querySelector('.burger');
+        const links = document.querySelector('.links');
+
+        burger.addEventListener('click', () => {
+            links.classList.toggle('open');
+        });
+    </script>
 </body>
 </html>

@@ -22,7 +22,54 @@
                 <a href="./ranking.html">Classement</a>
             </div>
             <button><a href="login.html">Logout</a></button>
+            <div class="burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
         </nav>
     </header>
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Historique</h1>
+                <p>Retrouvez toutes les consommations d'Amed et le contributeur.</p>
+            </div>
+        </section>
+        <table>
+            <thead>
+                <tr>
+                    <th>Produit</th>
+                    <th>Quantité (ml)</th>
+                    <th>Nutriments</th>
+                    <th>Date et Heure</th>
+                    <th>Contributeur</th>
+                </tr>
+            </thead>
+            <tbody id="recent-consumptions-body">
+                <tr>
+                    <td>RedBull</td>
+                    <td>250</td>
+                    <td>Caféine: 80mg, Sucre: 27g</td>
+                    <td>14/11/2025 : 09:15</td>
+                    <td>josephe.fine@my-digital-school.org</td>
+                </tr>
+                <tr>
+                    <td>Coca-Cola</td>
+                    <td>330</td>
+                    <td>Caféine: 34mg, Sucre: 35g</td>
+                    <td>13/11/2025 : 18:30</td>
+                    <td>john.wait@@my-digital-school.org</td>
+            </tbody>
+        </table>
+    </main>
+    <script>
+        const burger = document.querySelector('.burger');
+        const links = document.querySelector('.links');
+
+        burger.addEventListener('click', () => {
+            links.classList.toggle('open');
+        });
+    </script>
 </body>
 </html>

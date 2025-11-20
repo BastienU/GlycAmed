@@ -7,9 +7,18 @@
     <title>GlycAmed</title>
     <link rel="stylesheet" href="/frontend/css/resetCSSAndNavbar.css">
     <link rel="stylesheet" href="/frontend/css/main.css">
+    <link rel="stylesheet" href="/frontend/css/preloader.css">
     <link rel="shortcut icon" href="assets/Logo_glycamed.svg" type="image/x-icon">
 </head>
 <body>
+    <div id="preloader">
+      <div class="preloader-container">
+          <img src="assets/cadran.png" class="cadran" alt="cadran">
+          <div class="needle-container">
+              <img src="assets/aiguille.png" class="aiguille" alt="aiguille">
+          </div>
+      </div>
+    </div>
     <header>
         <nav>
             <a href="index.html">
@@ -23,7 +32,51 @@
                 <a href="./ranking.html">Classement</a>
             </div>
             <button><a href="login.html">Login</a></button>
+            <div class="burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
         </nav>
     </header>
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Bienvenue sur GlycAmed</h1>
+                <p>Suivez et gérez les consommations de boissons d'Amed facilement.</p>
+                <a href="./addConsumption.html" class="cta-button">Ajouter une consommation</a>
+            </div>
+        </section>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Produit</th>
+                    <th>Quantité (ml)</th>
+                    <th>Date et Heure</th>
+                </tr>
+            </thead>
+            <tbody id="recent-consumptions-body">
+                <tr>
+                    <td>RedBull</td>
+                    <td>250</td>
+                    <td>14/11/2025 : 09:15</td>
+                </tr>
+                <tr>
+                    <td>Coca-Cola</td>
+                    <td>330</td>
+                    <td>13/11/2025 : 18:30</td>
+            </tbody>
+        </table>
+    </main>
+    <script src="/frontend/js/preloader.js" defer></script>
+    <script>
+        const burger = document.querySelector('.burger');
+        const links = document.querySelector('.links');
+
+        burger.addEventListener('click', () => {
+            links.classList.toggle('open');
+        });
+    </script>
 </body>
 </html>
