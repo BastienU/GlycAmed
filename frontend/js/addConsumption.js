@@ -1,39 +1,128 @@
-const productInput = document.getElementById("product");
-const datalist = document.getElementById("products-list");
+const input = document.getElementById("product");
+const resultsBox = document.getElementById("autocomplete-results");
+const spinner = document.getElementById("loading-spinner");
 
-productInput.addEventListener("input", async () => {
-    const query = productInput.value.trim();
+let searchTimeout = null;
+
+input.addEventListener("input", () => triggerSearch());
+input.addEventListener("focus", () => triggerSearch());
+
+function triggerSearch() {
+    const query = input.value.trim();
 
     if (query.length < 2) {
-        datalist.innerHTML = "";
+        resultsBox.style.display = "none";
+        spinner.style.display = "none";
+        return;
+    }
+
+    clearTimeout(searchTimeout);
+    spinner.style.display = "block";
+    searchTimeout = setTimeout(() => searchProducts(query), 300);
+}
+
+async function searchProducts(query) {
+    try {
+        const response = await fetch(
+            `http://localhost:3000/api/products/search?name=${encodeURIComponent(query)}`
+        );
+
+        const products = await response.json();
+        displayResults(products);
+
+    } catch (error) {
+        console.error("Erreur recherche :", error);
+    } finally {
+        spinner.style.display = "none";
+    }
+}
+
+function displayResults(products) {
+    resultsBox.innerHTML = "";
+
+    if (products.length === 0) {
+        resultsBox.style.display = "none";
+        return;
+    }
+
+    products.forEach(p => {
+        const div = document.createElement("div");
+        div.className = "autocomplete-item";
+        div.textContent = p.name;
+
+        div.addEventListener("click", () => {
+            input.value = p.name;
+            resultsBox.style.display = "none";
+        });
+
+        resultsBox.appendChild(div);
+    });
+
+    resultsBox.style.display = "block";
+}
+
+document.addEventListener("click", (e) => {
+    if (!e.target.closest(".autocomplete-container")) {
+        resultsBox.style.display = "none";
+    }
+});
+
+const form = document.querySelector(".consumption-form");
+
+form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const productName = input.value.trim();
+    const quantity = parseInt(document.getElementById("quantity").value);
+    const consumedAt = document.getElementById("datetime").value || Date.now();
+
+    if (!productName || !quantity) {
+        alert("Veuillez remplir au moins le produit et la quantité !");
         return;
     }
 
     const token = localStorage.getItem("token");
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    if (!user || !user._id) {
+        alert("Utilisateur non connecté.");
+        return;
+    }
+
+    const payload = {
+        contributorId: user._id,
+        barcode: null,
+        quantityMl: quantity,
+        nutrients: {
+            sugar: 0,
+            caffeine: 0,
+            calories: 0
+        },
+        consumedAt: consumedAt
+    };
 
     try {
-        const response = await fetch(`http://localhost:3000/api/products/search?name=${encodeURIComponent(query)}`, {
+        const response = await fetch("http://localhost:3000/api/consumption/add", {
+            method: "POST",
             headers: {
+                "Content-Type": "application/json",
                 "Authorization": `Bearer ${token}`
-            }
+            },
+            body: JSON.stringify(payload)
         });
 
-        if (!response.ok) {
-            console.error("Erreur API produits");
-            return;
+        const data = await response.json();
+
+        if (response.ok) {
+            alert("Consommation ajoutée !");
+            form.reset();
+            resultsBox.style.display = "none";
+        } else {
+            alert(data.message || "Erreur lors de l'ajout");
         }
 
-        const products = await response.json();
-
-        datalist.innerHTML = ""; // reset suggestions
-
-        products.forEach(product => {
-            const option = document.createElement("option");
-            option.value = product.product_name || product.name;
-            datalist.appendChild(option);
-        });
-
-    } catch (error) {
-        console.error("Erreur fetch :", error);
+    } catch (err) {
+        console.error("Erreur POST consommation :", err);
+        alert("Erreur réseau, veuillez réessayer");
     }
 });

@@ -37,7 +37,11 @@
         <form class="consumption-form">
             <div class="form-group">
                 <label for="product">Produit :</label>
-                <input type="text" id="product" name="product" required>
+                <div class="autocomplete-container">
+                    <input type="text" id="product" name="product" autocomplete="off" required>
+                    <div id="loading-spinner" class="spinner" style="display:none;">⏳ Recherche...</div>
+                    <div id="autocomplete-results" class="autocomplete-results"></div>
+                </div>
             </div>
 
             <div class="form-group">
@@ -47,7 +51,7 @@
 
             <div class="form-group">
                 <label for="datetime">Heure :</label>
-                <input type="datetime" id="datetime" name="datetime" required>
+                <input type="datetime" id="datetime" name="datetime">
             </div>
 
             <button type="submit" class="consumption-btn">Valider</button>
@@ -62,5 +66,6 @@
         });
     </script>
     <script src="/frontend/js/auth.js"></script>
+    <script src="/frontend/js/addConsumption.js"></script>
 </body>
 </html>
