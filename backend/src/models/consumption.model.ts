@@ -7,9 +7,13 @@ const consumptionSchema = new Schema(
       ref: 'User',
       required: true,
     },
+    productName: {
+      type: String,
+      required: true
+    },
     barcode: {
       type: String,
-      required: false,
+      default: null
     },
     quantityMl: {
       type: Number,
@@ -20,20 +24,14 @@ const consumptionSchema = new Schema(
       caffeine: { type: Number, required: true },
       calories: { type: Number, required: true },
     },
-    location: {
-      type: String,
-    },
-    notes: {
-      type: String,
-    },
+    location: String,
+    notes: String,
     consumedAt: {
       type: Date,
       default: Date.now,
     },
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
 
 export const ConsumptionModel = model('Consumption', consumptionSchema);
