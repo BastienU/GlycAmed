@@ -3,6 +3,7 @@ const resultsBox = document.getElementById("autocomplete-results");
 const spinner = document.getElementById("loading-spinner");
 
 let searchTimeout = null;
+let selectedProduct = null;
 
 input.addEventListener("input", () => triggerSearch());
 input.addEventListener("focus", () => triggerSearch());
@@ -52,6 +53,7 @@ function displayResults(products) {
 
         div.addEventListener("click", () => {
             input.value = p.name;
+            selectedProduct = p;
             resultsBox.style.display = "none";
         });
 
@@ -92,9 +94,9 @@ form.addEventListener("submit", async (e) => {
     const payload = {
         contributorId: user._id,
         productName: productName,
-        barcode: null,
+        barcode: selectedProduct?.barcode || null,
         quantityMl: quantity,
-        nutrients: {
+        nutrients: selectedProduct?.nutrients || {
             sugar: 0,
             caffeine: 0,
             calories: 0
