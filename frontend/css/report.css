@@ -1,0 +1,70 @@
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+main h1 {
+  color: rgb(77, 160, 243);
+  margin-bottom: 30px;
+  font-size: 2rem;
+  text-align: center;
+}
+
+.recommendation-cards {
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.recommendation-cards .card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    width: 250px;
+    text-align: center;
+    transition: transform 0.2s ease;
+}
+
+.recommendation-cards .card:hover {
+    transform: translateY(-5px);
+}
+
+.recommendation-cards .card h3 {
+    margin-bottom: 10px;
+    font-size: 1.3rem;
+}
+
+.recommendation-cards .card .value {
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: #005bbb;
+}
+
+.recommendation-cards .card .desc {
+    font-size: 0.9rem;
+    margin-top: 8px;
+    opacity: 0.8;
+}
+
+.charts-container {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 40px;
+    flex-wrap: wrap;
+}
+
+.charts-container canvas {
+    background: white;
+    border-radius: 12px;
+    max-width: 300px;
+    max-height: fit-content;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    padding: 15px;
+}

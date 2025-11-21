@@ -6,6 +6,8 @@
     <meta name="description" content="The web application for reporting all the drinks you see Amed drinking">
     <title>GlycAmed</title>
     <link rel="stylesheet" href="/frontend/css/resetCSSAndNavbar.css">
+    <link rel="stylesheet" href="/frontend/css/report.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="shortcut icon" href="assets/Logo_glycamed.svg" type="image/x-icon">
 </head>
 <body>
@@ -29,6 +31,34 @@
             </div>
         </nav>
     </header>
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Rapport</h1>
+                <h3>Quantités maximales recommandées par l'OMS</h3>
+                <div class="recommendation-cards">
+                    <div class="card">
+                        <h3>Sucre</h3>
+                        <p class="value">50 g / jour</p>
+                        <p class="desc">Recommandation maximale de l'OMS</p>
+                    </div>
+
+                    <div class="card">
+                        <h3>Caféine</h3>
+                        <p class="value">400 mg / jour</p>
+                        <p class="desc">Limite journalière recommandée</p>
+                    </div>
+                </div>
+
+                <h3>Voici le rapport détaillé des consommations d'Amed.</h3>
+                <div class="charts-container">
+                    <canvas id="sugarChart" width="200" height="200"></canvas>
+                    <canvas id="caffeineChart" width="200" height="200"></canvas>
+                    <canvas id="caloriesChart" width="200" height="200"></canvas>
+                </div>
+            </div>
+        </section>
+    </main>
     <script>
         const burger = document.querySelector('.burger');
         const links = document.querySelector('.links');
@@ -38,5 +68,6 @@
         });
     </script>
     <script src="/frontend/js/auth.js"></script>
+    <script src="/frontend/js/report.js"></script>
 </body>
 </html>
