@@ -7,6 +7,7 @@ export interface ResponseUser {
   updatedAt: Date;
 }
 
+// AuthResponse contient le user safe et le token
 export interface AuthResponse {
   user: ResponseUser;
   token: string;

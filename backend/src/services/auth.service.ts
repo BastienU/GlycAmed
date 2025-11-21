@@ -28,8 +28,8 @@ export class AuthService {
     const user = await User.findOne({ email: data.email });
     if (!user) throw new Error("Invalid credentials");
 
-    const match = await user.comparePassword(data.password);
-    if (!match) throw new Error("Invalid credentials");
+    const isMatch = await user.comparePassword(data.password);
+    if (!isMatch) throw new Error("Invalid credentials");
 
     const token = generateToken(user._id.toString());
 

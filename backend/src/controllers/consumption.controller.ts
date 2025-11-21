@@ -1,6 +1,7 @@
 import { Response } from "express";
 import { AuthRequest } from "../types/auth-request";
 import { ConsumptionService } from "../services/consumption.service";
+import { CreateConsumptionDTO, UpdateConsumptionDTO } from "../types/dtos/consumption.dto";
 
 const service = new ConsumptionService();
 
@@ -9,7 +10,8 @@ export class ConsumptionController {
     try {
       if (!req.user) return res.status(401).json({ message: "Unauthorized" });
 
-      const consumption = await service.create(req.body, req.user.id);
+      const dto: CreateConsumptionDTO = req.body;
+      const consumption = await service.create(dto, req.user.id);
       return res.status(201).json(consumption);
     } catch (err) {
       return res.status(400).json({ message: (err as Error).message });
@@ -31,7 +33,7 @@ export class ConsumptionController {
 
     try {
       const consumption = await service.getById(id);
-      if (!consumption) return res.status(404).json({ message: "Not found" });
+      if (!consumption) return res.status(404).json({ message: "Consumption not found" });
       return res.status(200).json(consumption);
     } catch (err) {
       return res.status(500).json({ message: (err as Error).message });
@@ -45,7 +47,8 @@ export class ConsumptionController {
     if (!id) return res.status(400).json({ message: "Missing id parameter" });
 
     try {
-      const updated = await service.update(id, req.body, req.user.id);
+      const dto: UpdateConsumptionDTO = req.body;
+      const updated = await service.update(id, dto, req.user.id);
       return res.status(200).json(updated);
     } catch (err) {
       return res.status(400).json({ message: (err as Error).message });

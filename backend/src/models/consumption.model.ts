@@ -1,33 +1,47 @@
-import { Schema, model, Model, Document, Types } from "mongoose";
-import { IConsumption } from "../types/consumption.interface";
+import { Schema, model, Document, Types } from "mongoose";
 
-// Document avec timestamps
-export interface IConsumptionDocument extends IConsumption, Document {
-  _id: Types.ObjectId;
-  createdAt: Date;
-  updatedAt: Date;
+export interface IConsumption {
+  productName: string;
+  brand?: string;
+  quantity: number;
+  location?: string;
+  note?: string;
+
+  // nutriments calculés
+  sugar: number;
+  caffeine: number;
+  calories: number;
+
+  // valeurs par 100ml/g pour calcul
+  sugarsPer100ml?: number;
+  caffeinePer100ml?: number;
+  caloriesPer100ml?: number;
+
+  contributor: Types.ObjectId;
+  consumedAt: Date;
 }
 
-// Si tu veux des méthodes statiques, tu peux définir un IConsumptionModel
-export interface IConsumptionModel extends Model<IConsumptionDocument> {}
+export interface IConsumptionDocument extends IConsumption, Document {}
 
-const ConsumptionSchema = new Schema<IConsumptionDocument>(
+const consumptionSchema = new Schema<IConsumptionDocument>(
   {
     productName: { type: String, required: true },
-    brand: { type: String },
+    brand: String,
     quantity: { type: Number, required: true },
-    sugar: { type: Number },
-    caffeine: { type: Number },
-    calories: { type: Number },
-    location: { type: String },
-    note: { type: String },
-    consumedAt: { type: Date, default: Date.now },
+    location: String,
+    note: String,
+    sugar: { type: Number, default: 0 },
+    caffeine: { type: Number, default: 0 },
+    calories: { type: Number, default: 0 },
+
+    sugarsPer100ml: Number,
+    caffeinePer100ml: Number,
+    caloriesPer100ml: Number,
+
     contributor: { type: Schema.Types.ObjectId, ref: "User", required: true },
+    consumedAt: { type: Date, default: Date.now },
   },
   { timestamps: true }
 );
 
-export const Consumption = model<IConsumptionDocument, IConsumptionModel>(
-  "Consumption",
-  ConsumptionSchema
-);
+export const Consumption = model<IConsumptionDocument>("Consumption", consumptionSchema);

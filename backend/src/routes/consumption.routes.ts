@@ -5,12 +5,14 @@ import { authMiddleware } from "../middlewares/auth.middleware";
 const router = Router();
 const controller = new ConsumptionController();
 
+// Toutes les routes protégées par JWT
 router.use(authMiddleware);
 
-router.post("/", controller.create.bind(controller));
-router.get("/", controller.getAll.bind(controller));
-router.get("/:id", controller.getById.bind(controller));
-router.put("/:id", controller.update.bind(controller));
-router.delete("/:id", controller.delete.bind(controller));
+// CRUD Consommations
+router.post("/", (req, res) => controller.create(req, res));
+router.get("/", (req, res) => controller.getAll(req, res));
+router.get("/:id", (req, res) => controller.getById(req, res));
+router.put("/:id", (req, res) => controller.update(req, res));
+router.delete("/:id", (req, res) => controller.delete(req, res));
 
 export default router;
