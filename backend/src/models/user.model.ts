@@ -21,7 +21,7 @@ export interface IUserDocument extends IUser, Document {
 export interface IUserModel extends Model<IUserDocument> {}
 
 // -----------------------------
-// Schéma Mongoose
+// Schéma
 // -----------------------------
 const UserSchema = new Schema<IUserDocument>(
   {
@@ -34,7 +34,7 @@ const UserSchema = new Schema<IUserDocument>(
 );
 
 // -----------------------------
-// Middleware hash password
+// Hash password avant save
 // -----------------------------
 UserSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
@@ -47,7 +47,7 @@ UserSchema.pre("save", async function (next) {
 });
 
 // -----------------------------
-// Méthode instance comparePassword
+// Compare password
 // -----------------------------
 UserSchema.methods.comparePassword = async function (candidate: string): Promise<boolean> {
   return bcrypt.compare(candidate, this.password);
