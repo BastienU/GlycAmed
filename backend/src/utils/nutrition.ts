@@ -1,13 +1,15 @@
-export interface NutrientInfo {
-  sugarsPer100ml?: number | undefined;
-  caffeinePer100ml?: number | undefined;
-  caloriesPer100ml?: number | undefined;
+interface NutrientInfo {
+  sugarsPer100ml?: number;
+  caffeinePer100ml?: number;
+  caloriesPer100ml?: number;
 }
 
-export function calculateNutrients(quantity: number, info: NutrientInfo) {
-  const sugar = info.sugarsPer100ml ? (info.sugarsPer100ml * quantity) / 100 : 0;
-  const caffeine = info.caffeinePer100ml ? (info.caffeinePer100ml * quantity) / 100 : 0;
-  const calories = info.caloriesPer100ml ? (info.caloriesPer100ml * quantity) / 100 : 0;
+export const calculateNutrients = (quantity: number, nutrients: NutrientInfo) => {
+  const sugar = ((nutrients.sugarsPer100ml ?? 0) * quantity) / 100;
+  const caffeine = ((nutrients.caffeinePer100ml ?? 0) * quantity) / 100;
+  const calories = ((nutrients.caloriesPer100ml ?? 0) * quantity) / 100;
 
   return { sugar, caffeine, calories };
-}
+};
+
+

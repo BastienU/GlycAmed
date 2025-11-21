@@ -5,11 +5,14 @@ import { calculateNutrients } from "../utils/nutrition";
 
 export class ConsumptionService {
   async create(data: CreateConsumptionDTO, contributorId: string): Promise<IConsumptionDocument> {
-    const { sugar, caffeine, calories } = calculateNutrients(data.quantity, {
-      sugarsPer100ml: data.sugarsPer100ml,
-      caffeinePer100ml: data.caffeinePer100ml,
-      caloriesPer100ml: data.caloriesPer100ml,
-    });
+    const { sugar, caffeine, calories } = calculateNutrients(
+      data.quantity,
+      {
+        sugarsPer100ml: data.sugarsPer100ml ?? 0,
+        caffeinePer100ml: data.caffeinePer100ml ?? 0,
+        caloriesPer100ml: data.caloriesPer100ml ?? 0,
+      }
+    );
 
     return Consumption.create({
       ...data,
@@ -17,6 +20,7 @@ export class ConsumptionService {
       caffeine,
       calories,
       contributor: new Types.ObjectId(contributorId),
+      consumedAt: data.consumedAt ?? new Date(),
     });
   }
 
@@ -25,14 +29,19 @@ export class ConsumptionService {
     if (!consumption) throw new Error("Consumption not found");
     if (consumption.contributor.toString() !== userId) throw new Error("Not authorized");
 
-    // Recalculer les nutriments si quantité ou valeurs par 100ml/g changent
-    if (data.quantity || data.sugarsPer100ml || data.caffeinePer100ml || data.caloriesPer100ml) {
+    // Recalculer les nutriments si besoin
+    if (
+      data.quantity !== undefined ||
+      data.sugarsPer100ml !== undefined ||
+      data.caffeinePer100ml !== undefined ||
+      data.caloriesPer100ml !== undefined
+    ) {
       const { sugar, caffeine, calories } = calculateNutrients(
         data.quantity ?? consumption.quantity,
         {
-          sugarsPer100ml: data.sugarsPer100ml ?? consumption.sugarsPer100ml,
-          caffeinePer100ml: data.caffeinePer100ml ?? consumption.caffeinePer100ml,
-          caloriesPer100ml: data.caloriesPer100ml ?? consumption.caloriesPer100ml,
+          sugarsPer100ml: data.sugarsPer100ml ?? consumption.sugarsPer100ml ?? 0,
+          caffeinePer100ml: data.caffeinePer100ml ?? consumption.caffeinePer100ml ?? 0,
+          caloriesPer100ml: data.caloriesPer100ml ?? consumption.caloriesPer100ml ?? 0,
         }
       );
 

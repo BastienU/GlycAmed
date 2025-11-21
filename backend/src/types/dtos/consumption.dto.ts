@@ -1,13 +1,15 @@
 export interface CreateConsumptionDTO {
   productName: string;
   brand?: string;
-  quantity: number;
+  quantity: number; // en ml ou g
   location?: string;
   note?: string;
 
   sugarsPer100ml?: number;
   caffeinePer100ml?: number;
   caloriesPer100ml?: number;
+
+  consumedAt?: Date; // facultatif, sinon Date.now()
 }
 
 export interface UpdateConsumptionDTO {
@@ -21,8 +23,9 @@ export interface UpdateConsumptionDTO {
   caffeinePer100ml?: number;
   caloriesPer100ml?: number;
 
-  // Ajout des nutriments calculés
   sugar?: number;
   caffeine?: number;
   calories?: number;
+
+  consumedAt?: Date;
 }
