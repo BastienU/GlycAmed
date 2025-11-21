@@ -91,6 +91,7 @@ form.addEventListener("submit", async (e) => {
 
     const payload = {
         contributorId: user._id,
+        productName: productName,
         barcode: null,
         quantityMl: quantity,
         nutrients: {
@@ -117,6 +118,10 @@ form.addEventListener("submit", async (e) => {
             alert("Consommation ajoutée !");
             form.reset();
             resultsBox.style.display = "none";
+
+            setTimeout(() => {
+                window.location.href = "index.html";
+            }, 1000);
         } else {
             alert(data.message || "Erreur lors de l'ajout");
         }
