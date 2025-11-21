@@ -1,36 +1,53 @@
 import { Request, Response, NextFunction } from "express";
-import jwt, { JwtPayload } from "jsonwebtoken";
+import { verifyToken } from "../utils/jwt";
+import { User } from "../models/user.model";
+import { ResponseUser } from "../types/dtos/auth-response.dto";
 
-export interface AuthRequest extends Request {
-  userId?: string;
+// Étendre Request pour ajouter req.user
+declare module "express-serve-static-core" {
+  interface Request {
+    user?: ResponseUser;
+  }
 }
 
-interface TokenPayload extends JwtPayload {
-  id: string;
-}
-
-export const authMiddleware = (
-  req: AuthRequest,
+export const authMiddleware = async (
+  req: Request,
   res: Response,
   next: NextFunction
-) => {
-  const authHeader = req.headers.authorization;
+): Promise<Response | void> => {
+  const header = req.headers.authorization;
 
-  if (!authHeader || !authHeader.startsWith("Bearer "))
-    return res.status(401).json({ error: "No token provided" });
+  if (!header || !header.startsWith("Bearer ")) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
 
-  const token = authHeader.split(" ")[1];
-
-  if (!token) return res.status(401).json({ error: "No token provided" });
+  const token = header.slice(7); // supprime "Bearer "
+  if (!token) {
+    return res.status(401).json({ message: "Invalid token format" });
+  }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as unknown as TokenPayload;
+    // Vérification et décodage du token
+    const decoded = verifyToken(token);
 
-    if (!decoded.id) return res.status(401).json({ error: "Invalid token payload" });
+    // Recherche de l'utilisateur
+    const user = await User.findById(decoded.id);
+    if (!user) {
+      return res.status(401).json({ message: "User not found" });
+    }
 
-    req.userId = decoded.id;
+    // Préparer l'objet exposé au frontend
+    req.user = {
+      id: user._id.toString(),
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
+    };
+
     next();
-  } catch {
-    return res.status(401).json({ error: "Invalid token" });
+  } catch (err) {
+    return res.status(403).json({ message: "Invalid token" });
   }
 };
