@@ -1,50 +1,81 @@
-import { Product, IProduct } from "../models/product.model";
-import { OpenFoodApiResponse } from "../types/openfood.interface";
+import { ProductInfo } from "../types/product-info.type";
+import {
+  OpenFoodFactsProduct,
+  OpenFoodFactsProductResponse,
+  OpenFoodFactsSearchResponse,
+} from "../types/off-api-response.type";
 
 export class ProductService {
-  private readonly API_URL = "https://world.openfoodfacts.org/api/v0/product";
+  private BASE = "https://world.openfoodfacts.org";
 
-  // Recherche via barcode
-  async fetchProductByBarcode(barcode: string): Promise<IProduct | null> {
-    const res = await fetch(`${this.API_URL}/${barcode}.json`);
-    if (!res.ok) throw new Error("Open Food Facts API error");
+  // ╔══════════════════════════════════════╗
+  // ║ 1. Recherche par code-barres         ║
+  // ╚══════════════════════════════════════╝
+  async lookupByBarcode(barcode: string): Promise<ProductInfo | null> {
+    const url = `${this.BASE}/api/v0/product/${encodeURIComponent(barcode)}.json`;
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`OpenFoodFacts API error: ${res.status}`);
 
-    const rawData = await res.json();
+    const json = (await res.json()) as Partial<OpenFoodFactsProductResponse>;
 
-    // Vérification stricte
-    if (!rawData || typeof rawData !== "object" || !("product" in rawData)) {
-      throw new Error("Invalid API response");
-    }
+    if (!json || json.status !== 1 || !json.product) return null;
 
-    const data: OpenFoodApiResponse = rawData as OpenFoodApiResponse;
+    return this.parseOFFProduct(json.product, barcode);
+  }
 
-    if (!data.product) return null;
+  // ╔══════════════════════════════════════╗
+  // ║ 2. Recherche par nom                 ║
+  // ╚══════════════════════════════════════╝
+  async searchByName(
+    query: string,
+    page = 1,
+    pageSize = 10
+  ): Promise<ProductInfo[]> {
+    const url =
+      `${this.BASE}/cgi/search.pl?search_terms=` +
+      `${encodeURIComponent(query)}&search_simple=1&action=process&json=1` +
+      `&page=${page}&page_size=${pageSize}`;
 
-    const nutriments = {
-      sugar: Number(data.product.nutriments?.sugars_100g || 0),
-      caffeine: Number(data.product.nutriments?.caffeine_100g || 0),
-      calories: Number(data.product.nutriments?.energy_kcal_100g || 0),
-    };
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`OpenFoodFacts API error: ${res.status}`);
 
-    const productData: IProduct = {
-      barcode,
-      name: data.product.product_name || "Unknown",
-      brand: data.product.brands || "Unknown",
-      imageUrl: data.product.image_front_url, // optionnel, OK pour TS strict
+    const json = (await res.json()) as Partial<OpenFoodFactsSearchResponse>;
+
+    const items = json.products;
+    if (!Array.isArray(items)) return [];
+
+    return items
+      .map((p) => this.parseOFFProduct(p, p.code))
+      .filter((p): p is ProductInfo => p !== null);
+  }
+
+  // ╔══════════════════════════════════════╗
+  // ║ 3. Parsing des données OFF           ║
+  // ╚══════════════════════════════════════╝
+  private parseOFFProduct(
+    product: OpenFoodFactsProduct | undefined,
+    barcode: string | undefined
+  ): ProductInfo | null {
+    if (!product) return null;
+
+    const nutriments = product.nutriments ?? {};
+
+    const info: ProductInfo = {
+      productName: product.product_name ?? "Produit inconnu",
+      brands: product.brands ?? "Marque inconnue",
+      sugarsPer100ml: nutriments.sugars_100ml ?? nutriments.sugars_100g ?? 0,
+      caffeinePer100ml: nutriments.caffeine_100ml ?? 0,
+      caloriesPer100ml: nutriments.energy_kcal_100ml ?? nutriments.energy_kcal_100g ?? 0,
       nutriments,
     };
 
-    // Sauvegarde en base si n'existe pas déjà
-    const existing = await Product.findOne({ barcode });
-    if (existing) return existing;
+    if (barcode) info.barcode = barcode;
 
-    const product = new Product(productData);
-    return product.save();
-  }
+    const imageUrl = product.image_small_url ?? product.image_url;
+    if (imageUrl) info.imageUrl = imageUrl;
 
-  // Recherche produit par nom
-  async searchProductsByName(name: string): Promise<IProduct[]> {
-    const regex = new RegExp(name, "i");
-    return Product.find({ name: regex }).limit(20);
+    return info;
   }
 }
+
+export const productService = new ProductService();

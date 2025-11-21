@@ -1,16 +1,26 @@
-import { Types } from "mongoose";
-import { INutriments } from "./product.interface";
+import { Document, Types } from "mongoose";
 
 export interface IConsumption {
-  _id?: Types.ObjectId;
-  user: Types.ObjectId;
-  product: Types.ObjectId;
+  productName: string;
+  brand?: string;
   quantity: number;
-  date: string;   // YYYY-MM-DD
-  hour: string;   // HH:mm
   location?: string;
-  notes?: string;
-  nutriments: INutriments;
-  createdAt?: Date;
-  updatedAt?: Date;
+  note?: string;
+
+  sugar: number;
+  caffeine: number;
+  calories: number;
+
+  sugarsPer100ml?: number;
+  caffeinePer100ml?: number;
+  caloriesPer100ml?: number;
+
+  contributor: Types.ObjectId;
+  consumedAt: Date;
+}
+
+export interface IConsumptionDocument extends IConsumption, Document {
+  _id: Types.ObjectId;
+  createdAt: Date;
+  updatedAt: Date;
 }

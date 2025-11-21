@@ -1,38 +1,47 @@
-import mongoose, { Schema, Types } from "mongoose";
+import { Schema, model, Document, Types } from "mongoose";
 
 export interface IConsumption {
-  user: Types.ObjectId;
-  product: Types.ObjectId; // référence au produit
-  quantity: number; // quantité consommée (en grammes ou ml)
-  date: string; // YYYY-MM-DD
-  hour: string; // HH:mm
+  productName: string;
+  brand?: string;
+  quantity: number;
   location?: string;
-  notes?: string;
-  nutriments: {
-    sugar: number;
-    caffeine: number;
-    calories: number;
-  };
+  note?: string;
+
+  // nutriments calculés
+  sugar: number;
+  caffeine: number;
+  calories: number;
+
+  // valeurs par 100ml/g pour calcul
+  sugarsPer100ml?: number;
+  caffeinePer100ml?: number;
+  caloriesPer100ml?: number;
+
+  contributor: Types.ObjectId;
+  consumedAt: Date;
 }
 
-const NutrimentsSchema = new Schema<IConsumption["nutriments"]>({
-  sugar: { type: Number, required: true },
-  caffeine: { type: Number, required: true },
-  calories: { type: Number, required: true },
-});
+export interface IConsumptionDocument extends IConsumption, Document {}
 
-const ConsumptionSchema = new Schema<IConsumption>(
+const consumptionSchema = new Schema<IConsumptionDocument>(
   {
-    user: { type: Schema.Types.ObjectId, ref: "User", required: true },
-    product: { type: Schema.Types.ObjectId, ref: "Product", required: true },
+    productName: { type: String, required: true },
+    brand: String,
     quantity: { type: Number, required: true },
-    date: { type: String, required: true },
-    hour: { type: String, required: true },
-    location: { type: String },
-    notes: { type: String },
-    nutriments: { type: NutrimentsSchema, required: true },
+    location: String,
+    note: String,
+    sugar: { type: Number, default: 0 },
+    caffeine: { type: Number, default: 0 },
+    calories: { type: Number, default: 0 },
+
+    sugarsPer100ml: Number,
+    caffeinePer100ml: Number,
+    caloriesPer100ml: Number,
+
+    contributor: { type: Schema.Types.ObjectId, ref: "User", required: true },
+    consumedAt: { type: Date, default: Date.now },
   },
   { timestamps: true }
 );
 
-export const Consumption = mongoose.model<IConsumption>("Consumption", ConsumptionSchema);
+export const Consumption = model<IConsumptionDocument>("Consumption", consumptionSchema);
