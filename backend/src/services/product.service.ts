@@ -13,16 +13,12 @@ export class ProductService {
   // ╚══════════════════════════════════════╝
   async lookupByBarcode(barcode: string): Promise<ProductInfo | null> {
     const url = `${this.BASE}/api/v0/product/${encodeURIComponent(barcode)}.json`;
-
     const res = await fetch(url);
     if (!res.ok) throw new Error(`OpenFoodFacts API error: ${res.status}`);
 
-    // res.json() retourne `unknown` → cast safe
     const json = (await res.json()) as Partial<OpenFoodFactsProductResponse>;
 
-    if (!json || json.status !== 1 || !json.product) {
-      return null;
-    }
+    if (!json || json.status !== 1 || !json.product) return null;
 
     return this.parseOFFProduct(json.product, barcode);
   }
@@ -43,7 +39,6 @@ export class ProductService {
     const res = await fetch(url);
     if (!res.ok) throw new Error(`OpenFoodFacts API error: ${res.status}`);
 
-    // retour inconnu → cast
     const json = (await res.json()) as Partial<OpenFoodFactsSearchResponse>;
 
     const items = json.products;
@@ -59,24 +54,28 @@ export class ProductService {
   // ╚══════════════════════════════════════╝
   private parseOFFProduct(
     product: OpenFoodFactsProduct | undefined,
-    barcode: string
+    barcode: string | undefined
   ): ProductInfo | null {
     if (!product) return null;
 
-    const nutrients = product.nutriments ?? {};
+    const nutriments = product.nutriments ?? {};
 
-    return {
-      barcode,
-      name: product.product_name ?? "Produit inconnu",
-      brand: product.brands ?? "Marque inconnue",
-      image: product.image_small_url ?? product.image_url ?? null,
-
-      sugarsPer100ml: nutrients.sugars_100ml ?? nutrients.sugars_100g ?? 0,
-      caffeinePer100ml: nutrients["caffeine_100ml"] ?? 0,
-      caloriesPer100ml: nutrients.energy_kcal_100ml ?? nutrients.energy_kcal_100g ?? 0,
+    const info: ProductInfo = {
+      productName: product.product_name ?? "Produit inconnu",
+      brands: product.brands ?? "Marque inconnue",
+      sugarsPer100ml: nutriments.sugars_100ml ?? nutriments.sugars_100g ?? 0,
+      caffeinePer100ml: nutriments.caffeine_100ml ?? 0,
+      caloriesPer100ml: nutriments.energy_kcal_100ml ?? nutriments.energy_kcal_100g ?? 0,
+      nutriments,
     };
+
+    if (barcode) info.barcode = barcode;
+
+    const imageUrl = product.image_small_url ?? product.image_url;
+    if (imageUrl) info.imageUrl = imageUrl;
+
+    return info;
   }
 }
 
 export const productService = new ProductService();
-

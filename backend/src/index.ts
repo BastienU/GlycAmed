@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 
 import authRoutes from "./routes/auth.routes";
 import consumptionRoutes from "./routes/consumption.routes";
+import productRoutes from "./routes/product.routes";
 
 dotenv.config(); // charge les variables du .env
 
@@ -23,6 +24,7 @@ app.use(express.json()); // JSON parsing
 // Routes API
 app.use("/api/auth", authRoutes);
 app.use("/api/consumptions", consumptionRoutes);
+app.use("/api/products", productRoutes);
 
 // Health check
 app.get("/api/health", (req: Request, res: Response) => {
