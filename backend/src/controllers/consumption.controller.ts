@@ -2,6 +2,7 @@ import { Response } from "express";
 import { AuthRequest } from "../types/auth-request";
 import { ConsumptionService } from "../services/consumption.service";
 import { CreateConsumptionDTO, UpdateConsumptionDTO } from "../types/dtos/consumption.dto";
+import { productService } from "@services/product.service";
 
 const service = new ConsumptionService();
 
@@ -15,6 +16,34 @@ export class ConsumptionController {
       return res.status(201).json(consumption);
     } catch (err) {
       return res.status(400).json({ message: (err as Error).message });
+    }
+  }
+
+  // Créer depuis code-barres Open Food Facts
+  async createFromBarcode(req: AuthRequest, res: Response): Promise<Response> {
+    try {
+      if (!req.user) return res.status(401).json({ message: "Unauthorized" });
+
+      const { barcode, quantity, location, note, consumedAt } = req.body;
+      if (!barcode || !quantity) return res.status(400).json({ message: "Missing barcode or quantity" });
+
+      // 1. Récupérer le produit depuis l'API
+      const product = await productService.lookupByBarcode(barcode);
+      if (!product) return res.status(404).json({ message: "Product not found" });
+
+      // 2. Créer la consommation
+      const consumption = await service.createFromProduct(
+        product,
+        quantity,
+        req.user.id,
+        location,
+        note,
+        consumedAt ? new Date(consumedAt) : undefined
+      );
+
+      return res.status(201).json(consumption);
+    } catch (err) {
+      return res.status(500).json({ message: (err as Error).message });
     }
   }
 

@@ -2,6 +2,7 @@ import { Types } from "mongoose";
 import { Consumption, IConsumptionDocument } from "../models/consumption.model";
 import { CreateConsumptionDTO, UpdateConsumptionDTO } from "../types/dtos/consumption.dto";
 import { calculateNutrients } from "../utils/nutrition";
+import { ProductInfo } from "../types/product-info.type";
 
 export class ConsumptionService {
   async create(data: CreateConsumptionDTO, contributorId: string): Promise<IConsumptionDocument> {
@@ -21,6 +22,35 @@ export class ConsumptionService {
       calories,
       contributor: new Types.ObjectId(contributorId),
       consumedAt: data.consumedAt ?? new Date(),
+    });
+  }
+
+  // création depuis un produit OFF
+  async createFromProduct(
+    product: ProductInfo,
+    quantity: number,
+    contributorId: string,
+    location?: string,
+    note?: string,
+    consumedAt?: Date
+  ): Promise<IConsumptionDocument> {
+    const { sugar, caffeine, calories } = calculateNutrients(quantity, {
+      sugarsPer100ml: product.sugarsPer100ml ?? 0,
+      caffeinePer100ml: product.caffeinePer100ml ?? 0,
+      caloriesPer100ml: product.caloriesPer100ml ?? 0,
+    });
+
+    return Consumption.create({
+      productName: product.productName,
+      brand: product.brands,
+      quantity,
+      sugar,
+      caffeine,
+      calories,
+      contributor: new Types.ObjectId(contributorId),
+      location,
+      note,
+      consumedAt: consumedAt ?? new Date(),
     });
   }
 

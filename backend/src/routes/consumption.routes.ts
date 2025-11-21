@@ -15,4 +15,7 @@ router.get("/:id", (req, res) => controller.getById(req, res));
 router.put("/:id", (req, res) => controller.update(req, res));
 router.delete("/:id", (req, res) => controller.delete(req, res));
 
+// Création depuis OFF
+router.post("/from-barcode", (req, res) => controller.createFromBarcode(req, res));
+
 export default router;
