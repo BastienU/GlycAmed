@@ -1,18 +1,20 @@
 import mongoose, { Schema } from "mongoose";
 
+export interface INutriments {
+  sugar: number;
+  caffeine: number;
+  calories: number;
+}
+
 export interface IProduct {
   barcode: string;
   name: string;
   brand: string;
   imageUrl?: string | undefined;
-  nutriments: {
-    sugar: number;
-    caffeine: number;
-    calories: number;
-  };
+  nutriments: INutriments;
 }
 
-const NutrimentsSchema = new Schema<IProduct["nutriments"]>({
+const NutrimentsSchema = new Schema<INutriments>({
   sugar: { type: Number, required: true },
   caffeine: { type: Number, required: true },
   calories: { type: Number, required: true },
