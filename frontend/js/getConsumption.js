@@ -3,13 +3,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const token = localStorage.getItem("token");
 
-    if (!token) {
-        console.warn("Utilisateur non connecté.");
-        tbody.innerHTML = `
-            <tr><td colspan="3">Veuillez vous connecter pour voir les consommations.</td></tr>
-        `;
-        return;
-    }
+    // if (!token) {
+    //     console.warn("Utilisateur non connecté.");
+    //     tbody.innerHTML = `
+    //         <tr><td colspan="3">Veuillez vous connecter pour voir les consommations.</td></tr>
+    //     `;
+    //     return;
+    // }
 
     try {
         const response = await fetch("http://localhost:3000/api/consumption/all", {
@@ -29,7 +29,6 @@ document.addEventListener("DOMContentLoaded", async () => {
             return;
         }
 
-        // Ajout des lignes dans le tableau
         consumptions.forEach(cons => {
             const tr = document.createElement("tr");
 
