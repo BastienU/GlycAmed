@@ -17,12 +17,13 @@ async function renderCharts() {
         }
     });
 
+    const sugarMax = CONFIG.HEALTH_LIMITS.SUGAR_MAX;
     new Chart(document.getElementById('sugarChart'), {
         type: 'doughnut',
         data: {
             labels: ['Sucre consommé', 'Restant'],
             datasets: [{
-                data: [totalSugar, Math.max(50 - totalSugar, 0)],
+                data: [totalSugar, Math.max(sugarMax - totalSugar, 0)],
                 backgroundColor: ['#FF6384', '#E0E0E0'],
             }]
         },
@@ -33,12 +34,13 @@ async function renderCharts() {
         }
     });
 
+    const caffeineMax = CONFIG.HEALTH_LIMITS.CAFFEINE_MAX;
     new Chart(document.getElementById('caffeineChart'), {
         type: 'doughnut',
         data: {
             labels: ['Caféine consommée', 'Restant'],
             datasets: [{
-                data: [totalCaffeine, Math.max(400 - totalCaffeine, 0)],
+                data: [totalCaffeine, Math.max(caffeineMax - totalCaffeine, 0)],
                 backgroundColor: ['#36A2EB', '#E0E0E0'],
             }]
         },

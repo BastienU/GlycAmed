@@ -13,17 +13,17 @@ export class ProductService {
 
     const response = await fetch(url);
     const data = await response.json();
-
+    console.log(data);
     return data.products
-      .filter((p: any) => p.product_name && p.code)
-      .map((p: any) => ({
-        name: p.product_name,
-        barcode: p.code,
-        nutrients: {
-          sugar: p.nutriments?.sugars_100g || 0,
-          caffeine: p.nutriments?.caffeine_100g || 0,
-          calories: p.nutriments?.energy_kcal_100g || 0,
-        },
-      }));
+    .filter((p: any) => p.product_name && p.code)
+    .map((p: any) => ({
+      name: p.product_name,
+      barcode: p.code,
+      nutrients: {
+        sugar: p.nutriments?.sugars_100g || 0,
+        caffeine: p.nutriments?.caffeine_100g || 0,
+        calories: p.nutriments?.energy_100g || 0,
+      },
+    }));
   }
 }
