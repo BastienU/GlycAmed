@@ -347,13 +347,38 @@ function Gauge({ label, value, max, unit }) {
 - [ ] Composants réutilisables
 
 ### Fichiers créés/modifiés :
-- ...
-- ...
+- constants.js
+- addConsumption.html
+- historique.html
+- index.html
+- addConsumption.js
+- getConsumption.js
+- getHistorique.js
+- getRanking.js
+- login.js
+- register.js
+- report.js
+- api.js
+- store.js
+- auth.js
+- authGuard.js
+- components.js
+- login.html
+- ranking.html
+- register.html
+- package-lock.json
+- package.json
+- playwright.config.ts
+- example.spec.ts
+- playwright.yml
+- .gitignore
 
 ### Difficultés rencontrées :
-- ...
+- Beaucoup de code à refactoriser.
+- Erreurs à cause des type="module" dans le html pour appeler les scripts.
+- Import problématiques dans certaines situations.
 
-### Temps passé : ___min
+### Temps passé : Toute la journée, soit environ 7h
 ```
 
 ---
