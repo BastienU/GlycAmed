@@ -1,30 +1,28 @@
+import { ApiService } from "../../services/api.js";
+
 const form = document.querySelector(".login-form");
-import { CONFIG } from "../../config/constants.js";
 
 form.addEventListener("submit", async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    const email = document.getElementById("email").value.trim();
-    const password = document.getElementById("password").value;
+  const email = document.querySelector("#email").value.trim();
+  const password = document.querySelector("#password").value.trim();
 
-    try {
-        const response = await fetch(`${CONFIG.API_URL}/auth/login`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email, password })
-        });
+  if (!email || !password) {
+    alert("Veuillez remplir tous les champs");
+    return;
+  }
 
-        const data = await response.json();
+  try {
+    const data = await ApiService.post("/auth/login", { email, password });
 
-        if (response.ok) {
-            localStorage.setItem("token", data.token);
-            localStorage.setItem("user", JSON.stringify(data.user));
-            window.location.href = "index.html";
-        } else {
-            alert(data.error || "Login échoué");
-        }
-    } catch (err) {
-        console.error(err);
-        alert("Erreur réseau");
-    }
+    localStorage.setItem("token", data.token);
+    localStorage.setItem("user", JSON.stringify(data.user));
+    window.location.href = "index.html";
+
+    console.log("Utilisateur connecté :", data.user);
+  } catch (err) {
+    console.error(err);
+    alert(err.message || "Connexion impossible");
+  }
 });

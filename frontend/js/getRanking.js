@@ -1,11 +1,9 @@
-import { CONFIG } from "../../config/constants.js";
+import { ApiService } from "../../services/api.js";
 document.addEventListener("DOMContentLoaded", async () => {
     const tbody = document.querySelector("table tbody");
 
     try {
-        const response = await fetch(`${CONFIG.API_URL}/consumption/ranking`);
-        const ranking = await response.json();
-
+        const ranking = await ApiService.get("/consumption/ranking");
         tbody.innerHTML = "";
 
         ranking.forEach((user, index) => {

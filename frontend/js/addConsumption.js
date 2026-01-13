@@ -1,4 +1,5 @@
 import { CONFIG } from "../../config/constants.js";
+import { ApiService } from "../../services/api.js";
 const input = document.getElementById("product");
 const resultsBox = document.getElementById("autocomplete-results");
 const spinner = document.getElementById("loading-spinner");
@@ -106,31 +107,13 @@ form.addEventListener("submit", async (e) => {
     };
 
     try {
-        const response = await fetch(`${CONFIG.API_URL}/consumption/add`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
-            },
-            body: JSON.stringify(payload)
-        });
+        await ApiService.post("/consumption/add", payload);
 
-        const data = await response.json();
-
-        if (response.ok) {
-            alert("Consommation ajoutée !");
-            form.reset();
-            resultsBox.style.display = "none";
-
-            setTimeout(() => {
-                window.location.href = "index.html";
-            }, 1000);
-        } else {
-            alert(data.message || "Erreur lors de l'ajout");
-        }
+        alert("Consommation ajoutée !");
+        form.reset();
+        window.location.href = "index.html";
 
     } catch (err) {
-        console.error("Erreur POST consommation :", err);
-        alert("Erreur réseau, veuillez réessayer");
+        alert(err.message);
     }
 });

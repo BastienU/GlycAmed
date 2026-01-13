@@ -1,16 +1,9 @@
-import { CONFIG } from "../../config/constants.js";
+import { ApiService } from "../../services/api.js";
 const tableBody = document.getElementById("recent-consumptions-body");
 
 async function loadHistory() {
     try {
-        const response = await fetch(`${CONFIG.API_URL}/consumption/all`);
-
-        if (!response.ok) {
-            console.error("Erreur API :", response.status);
-            return;
-        }
-
-        const consumptions = await response.json();
+        const consumptions = await ApiService.get("/consumption/all");
 
         tableBody.innerHTML = "";
 

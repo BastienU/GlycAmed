@@ -1,26 +1,9 @@
-import { CONFIG } from "../../config/constants.js";
+import { ApiService } from "../../services/api.js";
 document.addEventListener("DOMContentLoaded", async () => {
     const tbody = document.getElementById("recent-consumptions-body");
 
-    const token = localStorage.getItem("token");
-
-    // if (!token) {
-    //     console.warn("Utilisateur non connecté.");
-    //     tbody.innerHTML = `
-    //         <tr><td colspan="3">Veuillez vous connecter pour voir les consommations.</td></tr>
-    //     `;
-    //     return;
-    // }
-
     try {
-        const response = await fetch(`${CONFIG.API_URL}/consumption/all`, {
-            headers: {
-                "Authorization": `Bearer ${token}`
-            }
-        });
-
-        const consumptions = await response.json();
-
+        const consumptions = await ApiService.get("/consumption/all");
         tbody.innerHTML = "";
 
         if (!Array.isArray(consumptions) || consumptions.length === 0) {

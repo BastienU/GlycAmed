@@ -1,9 +1,9 @@
 import { CONFIG } from "../../config/constants.js";
+import { ApiService } from "../../services/api.js";
 
 async function renderCharts() {
     // Appel API pour récupérer les consommations du jour
-    const response = await fetch(`${CONFIG.API_URL}/consumption/all`);
-    const consumptions = await response.json();
+    const consumptions = await ApiService.get("/consumption/all");
 
     let totalSugar = 0, totalCaffeine = 0, totalCalories = 0;
     const today = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
