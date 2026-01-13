@@ -1,8 +1,9 @@
 import { CONFIG } from "../config/constants.js";
+import { Store } from "./store.js";
 
 export const ApiService = {
   async request(endpoint, options = {}) {
-    const token = localStorage.getItem("token");
+    const token = Store.getToken();
 
     const response = await fetch(`${CONFIG.API_URL}${endpoint}`, {
       ...options,

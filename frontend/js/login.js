@@ -1,4 +1,5 @@
 import { ApiService } from "../../services/api.js";
+import { Store } from "../../services/store.js";
 
 const form = document.querySelector(".login-form");
 
@@ -16,8 +17,8 @@ form.addEventListener("submit", async (e) => {
   try {
     const data = await ApiService.post("/auth/login", { email, password });
 
-    localStorage.setItem("token", data.token);
-    localStorage.setItem("user", JSON.stringify(data.user));
+    // Utiliser le store au lieu de localStorage
+    Store.login(data.token, data.user);
     window.location.href = "index.html";
 
     console.log("Utilisateur connecté :", data.user);

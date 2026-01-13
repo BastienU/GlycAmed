@@ -1,4 +1,5 @@
 import { ApiService } from "../../services/api.js";
+import { Store } from "../../services/store.js";
 
 const form = document.querySelector(".register-form");
 
@@ -18,7 +19,8 @@ form.addEventListener("submit", async function (e) {
       password,
     });
 
-    localStorage.setItem("token", data.token);
+    // Utiliser le store au lieu de localStorage
+    Store.login(data.token, data.user);
     window.location.href = "index.html";
 
     console.log("Utilisateur enregistré :", data.user);

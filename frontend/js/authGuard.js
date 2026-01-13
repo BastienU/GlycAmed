@@ -1,21 +1,20 @@
 (function () {
-    const protectedPages = [
-        "/frontend/addConsumption.html",
-        "/frontend/historique.html",
-        "/frontend/ranking.html",
-        "/frontend/report.html",
-        "/frontend/statistics.html"
-    ];
+    import("../../services/store.js").then(({ Store }) => {
+        const protectedPages = [
+            "/frontend/addConsumption.html",
+            "/frontend/historique.html",
+            "/frontend/ranking.html",
+            "/frontend/report.html",
+            "/frontend/statistics.html"
+        ];
 
-    const currentPath = window.location.pathname;
+        const currentPath = window.location.pathname;
+        const isProtected = protectedPages.some(page => currentPath.endsWith(page));
 
-    const isProtected = protectedPages.some(page => currentPath.endsWith(page));
-
-    if (isProtected) {
-        const token = localStorage.getItem("token");
-
-        if (!token) {
-            window.location.href = "login.html";
+        if (isProtected) {
+            if (!Store.isUserAuthenticated()) {
+                window.location.href = "login.html";
+            }
         }
-    }
+    });
 })();

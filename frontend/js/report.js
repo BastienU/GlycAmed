@@ -1,5 +1,6 @@
 import { CONFIG } from "../../config/constants.js";
 import { ApiService } from "../../services/api.js";
+import { createChart } from "./components.js";
 
 async function renderCharts() {
     // Appel API pour récupérer les consommations du jour
@@ -18,53 +19,32 @@ async function renderCharts() {
     });
 
     const sugarMax = CONFIG.HEALTH_LIMITS.SUGAR_MAX;
-    new Chart(document.getElementById('sugarChart'), {
-        type: 'doughnut',
-        data: {
-            labels: ['Sucre consommé', 'Restant'],
-            datasets: [{
-                data: [totalSugar, Math.max(sugarMax - totalSugar, 0)],
-                backgroundColor: ['#FF6384', '#E0E0E0'],
-            }]
-        },
-        options: {
-            plugins: {
-                title: { display: true, text: `Sucre : ${totalSugar}g / 50g` }
-            }
-        }
+    createChart({
+        canvasId: 'sugarChart',
+        label: 'Sucre',
+        current: totalSugar,
+        max: sugarMax,
+        unit: 'g',
+        color: '#FF6384'
     });
 
     const caffeineMax = CONFIG.HEALTH_LIMITS.CAFFEINE_MAX;
-    new Chart(document.getElementById('caffeineChart'), {
-        type: 'doughnut',
-        data: {
-            labels: ['Caféine consommée', 'Restant'],
-            datasets: [{
-                data: [totalCaffeine, Math.max(caffeineMax - totalCaffeine, 0)],
-                backgroundColor: ['#36A2EB', '#E0E0E0'],
-            }]
-        },
-        options: {
-            plugins: {
-                title: { display: true, text: `Caféine : ${totalCaffeine}mg / 400mg` }
-            }
-        }
+    createChart({
+        canvasId: 'caffeineChart',
+        label: 'Caféine',
+        current: totalCaffeine,
+        max: caffeineMax,
+        unit: 'mg',
+        color: '#36A2EB'
     });
 
-    new Chart(document.getElementById('caloriesChart'), {
-        type: 'doughnut',
-        data: {
-            labels: ['Calories consommées', 'Restant'],
-            datasets: [{
-                data: [totalCalories, Math.max(2000 - totalCalories, 0)],
-                backgroundColor: ['#FFCE56', '#E0E0E0'],
-            }]
-        },
-        options: {
-            plugins: {
-                title: { display: true, text: `Calories : ${totalCalories} kcal / 2000 kcal` }
-            }
-        }
+    createChart({
+        canvasId: 'caloriesChart',
+        label: 'Calories',
+        current: totalCalories,
+        max: 2000,
+        unit: 'kcal',
+        color: '#FFCE56'
     });
 }
 
