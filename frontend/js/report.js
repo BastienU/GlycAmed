@@ -1,6 +1,8 @@
+import { CONFIG } from "../../config/constants.js";
+
 async function renderCharts() {
-    // Appel à ton API pour récupérer les consommations du jour
-    const response = await fetch("http://localhost:3000/api/consumption/all");
+    // Appel API pour récupérer les consommations du jour
+    const response = await fetch(`${CONFIG.API_URL}/consumption/all`);
     const consumptions = await response.json();
 
     let totalSugar = 0, totalCaffeine = 0, totalCalories = 0;
