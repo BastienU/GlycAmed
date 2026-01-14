@@ -1125,12 +1125,13 @@ Copiez ce template et remplissez-le au fur et à mesure du TP.
 3. Utiliser Sentry poue le monitoring de mon application.
 
 **Ce qui reste à améliorer** :
-1. 
-2. 
+1. Optimiser le temps de la recherche sur l'API d'OpenFoodFact.
+2. La page des statistiques.
 
 **Questions pour le prof** :
-1. 
-2. 
+1. C'est dur de trouver des questions.
+2. Je ne sais pas, mais le tp était dur. 
+3. Est-ce une question pour le prof ?
 ```
 
 ---
