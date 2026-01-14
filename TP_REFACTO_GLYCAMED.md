@@ -547,18 +547,36 @@ class ErrorBoundary extends Component {
 ## Partie 2 : Refactoring des composants
 
 ### Pages améliorées :
-- [ ] Login/Register
-- [ ] Dashboard
-- [ ] Autre : ___
+- [x] Login/Register
+- [x] Dashboard
+- [x] Autre : Report & Pages générales
 
 ### Patterns appliqués :
-- ...
+  - Implémentation d'un Store centralisé (`store.js`) pour gérer l'état global
+  - Système d'abonnement (`subscribe()`) pour réagir aux changements d'état
+  - Gestion de l'authentification : `Store.login()` et `Store.logout()`
+  - Gestion des statistiques quotidiennes : `Store.loadTodayStats()`
 
 ### Avant/Après notable :
-- Avant : [décrire brièvement]
-- Après : [décrire brièvement]
 
-### Temps passé : ___min
+**Avant :**
+- Formulaire de connexion avec gestion d'état éparse (disabled/textContent du bouton éparpillés)
+- Erreurs affichées de manière incohérente
+- Jauges et charts dupliquées partout sans logique centralisée
+- État global dispersé (localStorage, variables globales)
+- Pas de séparation validation/affichage
+- Gestion des erreurs manquante
+
+**Après :**
+- Formulaire avec états clairs via `setFormState()` (idle/loading/error/success)
+- Messages d'erreur cohérents et user-friendly avec `showErrorMessage()`
+- Composants réutilisables : `createGauge()`, `createChart()`, `showStateMessage()`
+- Source de vérité unique via Store (authentication, stats, loading, errors)
+- Validation dédiée avec `validateForm()` séparée de la logique UI
+- Error handling global pour toute l'app (erreurs sync + promesses rejetées)
+- Observer pattern : UI réactive aux changements du Store
+
+### Temps passé : 3h
 ```
 
 ---
