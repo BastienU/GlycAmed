@@ -1,14 +1,12 @@
-// Function to display alert messages
-function showAlert(type, message, containerId = null) {
-  const alert = document.createElement("div");
-  alert.className = `alert alert-${type}`;
-  alert.textContent = message;
+// Gestion globale des erreurs JS non gérées
+window.addEventListener('error', (event) => {
+  console.error('Erreur globale:', event.error);
+  showErrorMessage('Une erreur est survenue. Veuillez rafraîchir la page.');
+});
 
-  const parent = containerId 
-    ? document.getElementById(containerId)
-    : document.body;
 
-  parent.prepend(alert);
-
-  setTimeout(() => alert.remove(), 4000);
-}
+// Gestion globale des promesses rejetées non gérées
+window.addEventListener('unhandledrejection', (event) => {
+  console.error('Promise rejetée:', event.reason);
+  showErrorMessage('Une erreur est survenue.');
+});

@@ -1,5 +1,6 @@
 import { CONFIG } from "../config/constants.js";
 import { Store } from "./store.js";
+import { AlertManager } from "../frontend/js/components.js";
 
 export const ApiService = {
   async request(endpoint, options = {}) {
@@ -25,6 +26,8 @@ export const ApiService = {
         data?.message ||
         data?.error ||
         `Erreur API (${response.status})`;
+
+      AlertManager.error(message);
       throw new Error(message);
     }
 

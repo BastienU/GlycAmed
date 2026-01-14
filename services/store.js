@@ -1,3 +1,5 @@
+import { ApiService } from "./api.js";
+
 /**
  * Store centralisé - Pattern Observer
  * Source unique de vérité pour l'état partagé (authentification, stats, etc.)
@@ -11,8 +13,10 @@ const Store = {
     todayStats: {
       sugar: 0,
       caffeine: 0,
+      calories: 0,
     },
     isLoading: false,
+    statsError: null,
   },
 
   listeners: [],
@@ -119,6 +123,38 @@ const Store = {
     this.setState({
       todayStats: { ...this.state.todayStats, ...stats },
     });
+  },
+
+  /**
+   * Charge les stats de consommation du jour depuis l'API
+   */
+  async loadTodayStats() {
+    this.setState({ isLoading: true, statsError: null });
+
+    try {
+      const data = await ApiService.get("/consumption/all");
+
+      const today = new Date().toISOString().split("T")[0];
+
+      const stats = data
+        .filter(c => c.consumedAt?.startsWith(today))
+        .reduce(
+          (acc, c) => {
+            acc.sugar += c.nutrients?.sugar || 0;
+            acc.caffeine += c.nutrients?.caffeine || 0;
+            acc.calories += c.nutrients?.calories || 0;
+            return acc;
+          },
+          { sugar: 0, caffeine: 0, calories: 0 }
+        );
+
+      this.setState({ todayStats: stats });
+
+    } catch (err) {
+      this.setState({ statsError: err.message });
+    } finally {
+      this.setState({ isLoading: false });
+    }
   },
 
   /**

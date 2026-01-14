@@ -13,7 +13,6 @@ export class ProductService {
 
     const response = await fetch(url);
     const data = await response.json();
-    console.log(data);
     return data.products
     .filter((p: any) => p.product_name && p.code)
     .map((p: any) => ({

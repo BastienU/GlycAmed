@@ -1,51 +1,74 @@
+import { Store } from "../../services/store.js";
+import { createChart, showStateMessage } from "./components.js";
 import { CONFIG } from "../../config/constants.js";
-import { ApiService } from "../../services/api.js";
-import { createChart } from "./components.js";
 
-async function renderCharts() {
-    // Appel API pour récupérer les consommations du jour
-    const consumptions = await ApiService.get("/consumption/all");
+document.addEventListener("DOMContentLoaded", () => {
+  const chartsContainer = document.querySelector(".charts-container");
+  const stateContainer = document.getElementById("charts-state");
 
-    let totalSugar = 0, totalCaffeine = 0, totalCalories = 0;
-    const today = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
+  if (!chartsContainer || !stateContainer) {
+    console.error("Containers du dashboard introuvables");
+    return;
+  }
 
-    consumptions.forEach(c => {
-        const consumedDate = new Date(c.consumedAt).toISOString().split("T")[0];
-        if (consumedDate === today) {
-            totalSugar += c.nutrients.sugar || 0;
-            totalCaffeine += c.nutrients.caffeine || 0;
-            totalCalories += c.nutrients.calories || 0;
-        }
-    });
+  let chartsInitialized = false;
 
-    const sugarMax = CONFIG.HEALTH_LIMITS.SUGAR_MAX;
-    createChart({
-        canvasId: 'sugarChart',
-        label: 'Sucre',
-        current: totalSugar,
-        max: sugarMax,
-        unit: 'g',
-        color: '#FF6384'
-    });
+  Store.subscribe((state) => {
+    stateContainer.innerHTML = "";
 
-    const caffeineMax = CONFIG.HEALTH_LIMITS.CAFFEINE_MAX;
-    createChart({
-        canvasId: 'caffeineChart',
-        label: 'Caféine',
-        current: totalCaffeine,
-        max: caffeineMax,
-        unit: 'mg',
-        color: '#36A2EB'
-    });
+    if (state.isLoading) {
+      showStateMessage(stateContainer, "loading");
+      return;
+    }
 
-    createChart({
-        canvasId: 'caloriesChart',
-        label: 'Calories',
-        current: totalCalories,
+    if (state.statsError) {
+      showStateMessage(stateContainer, "error", state.statsError);
+
+      const retry = document.createElement("button");
+      retry.textContent = "Réessayer";
+      retry.onclick = () => Store.loadTodayStats();
+      stateContainer.appendChild(retry);
+      return;
+    }
+
+    const { sugar, caffeine, calories } = state.todayStats;
+
+    // Initialisation des charts
+    if (!chartsInitialized) {
+      createChart({
+        canvasId: "sugarChart",
+        label: "Sucre",
+        current: sugar,
+        max: CONFIG.HEALTH_LIMITS.SUGAR_MAX,
+        unit: "g",
+        color: "#FF6384",
+      });
+
+      createChart({
+        canvasId: "caffeineChart",
+        label: "Caféine",
+        current: caffeine,
+        max: CONFIG.HEALTH_LIMITS.CAFFEINE_MAX,
+        unit: "mg",
+        color: "#36A2EB",
+      });
+
+      createChart({
+        canvasId: "caloriesChart",
+        label: "Calories",
+        current: calories,
         max: 2000,
-        unit: 'kcal',
-        color: '#FFCE56'
-    });
-}
+        unit: "kcal",
+        color: "#FFCE56",
+      });
 
-renderCharts();
+      chartsInitialized = true;
+    }
+  });
+
+  // Chargement initial
+  Store.loadTodayStats();
+
+  // Rafraîchissement automatique toutes les 30 secondes
+  setInterval(() => Store.loadTodayStats(), 30000);
+});

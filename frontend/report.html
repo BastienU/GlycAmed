@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,10 +8,10 @@
     <title>GlycAmed</title>
     <link rel="stylesheet" href="/frontend/css/resetCSSAndNavbar.css">
     <link rel="stylesheet" href="/frontend/css/report.css">
-    <!-- <link rel="stylesheet" href="/frontend/css/components.css"> -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="shortcut icon" href="assets/Logo_glycamed.svg" type="image/x-icon">
 </head>
+
 <body>
     <script src="/frontend/js/authGuard.js"></script>
     <header>
@@ -53,6 +54,8 @@
                 </div>
 
                 <h3>Voici le rapport détaillé des consommations d'Amed.</h3>
+                <div id="charts-state"></div>
+
                 <div class="charts-container">
                     <canvas id="sugarChart" width="200" height="200"></canvas>
                     <canvas id="caffeineChart" width="200" height="200"></canvas>
@@ -69,7 +72,8 @@
             links.classList.toggle('open');
         });
     </script>
-    <script src="/frontend/js/auth.js"></script>
+    <script type="module" src="/frontend/js/auth.js"></script>
     <script type="module" src="/frontend/js/report.js"></script>
 </body>
+
 </html>
