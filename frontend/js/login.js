@@ -75,6 +75,15 @@ form.addEventListener("submit", async (e) => {
 
     Store.login(response.token, response.user);
 
+    // Identifier l'utilisateur dans Sentry (si disponible)
+    if (typeof window.Sentry !== 'undefined') {
+      window.Sentry.setUser({
+        id: response.user.id,
+        email: response.user.email,
+        username: response.user.firstName || response.user.email,
+      });
+    }
+
     setFormState("success");
 
     setTimeout(() => {

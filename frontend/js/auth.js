@@ -14,6 +14,10 @@ Store.subscribe((state) => {
     loginButton.addEventListener("click", (e) => {
       e.preventDefault();
       Store.logout();
+      // Déidentifier l'utilisateur de Sentry (si disponible)
+      if (typeof window.Sentry !== 'undefined') {
+        window.Sentry.setUser(null);
+      }
       window.location.href = "login.html";
     });
   } else {

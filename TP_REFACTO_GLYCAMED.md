@@ -954,12 +954,21 @@ document.getElementById('test-error')?.addEventListener('click', () => {
 - [ ] Utilisateur identifié après login
 - [ ] Error Boundary connecté (React)
 
-### Erreur de test visible dans Sentry : oui / non
+### Erreur de test visible dans Sentry : oui
 
 ### Observations sur le dashboard Sentry :
-- ...
+- Les erreurs s'affichent correctement dans le projet
+- L'utilisateur est correctement identifié après connexion
+- Les erreurs sont tagguées avec l'environnement (development/production)
+- Le contexte de l'erreur (navigateur, environnement, utilisateur) est bien capturé
 
-### Temps passé : ___min
+### Problèmes rencontrés et solutions :
+- **Erreur de résolution de module** : `login.js` importait Sentry directement sans que `app.js` soit chargé
+  - **Solution** : Charger `app.js` en premier, puis utiliser `window.Sentry` comme variable globale
+- **Bouton de test qui cassait la connexion** : Script essayant d'accéder à un élément disparu
+  - **Solution** : Supprimer complètement le bouton de test après vérification
+
+### Temps passé : 1h30min
 ```
 
 ---
@@ -980,79 +989,140 @@ Copiez ce template et remplissez-le au fur et à mesure du TP.
 ## Partie 1 : Patterns & Architecture
 
 ### Ce que j'ai mis en place :
-- [ ] Configuration centralisée
-- [ ] Service API
-- [ ] Store/Context pour l'état global
+- [ ] Fichier de configuration central
+- [ ] Service API centralisé  
+- [ ] Gestion d'état global (Store/Context)
 - [ ] Composants réutilisables
 
-### Fichiers créés :
-1. 
-2. 
-3. 
+### Fichiers créés/modifiés :
+- constants.js
+- addConsumption.html
+- historique.html
+- index.html
+- addConsumption.js
+- getConsumption.js
+- getHistorique.js
+- getRanking.js
+- login.js
+- register.js
+- report.js
+- api.js
+- store.js
+- auth.js
+- authGuard.js
+- components.js
+- login.html
+- ranking.html
+- register.html
+- package-lock.json
+- package.json
+- playwright.config.ts
+- example.spec.ts
+- playwright.yml
+- .gitignore
 
-### Fichiers modifiés :
-1. 
-2. 
+### Difficultés rencontrées :
+- Beaucoup de code à refactoriser.
+- Erreurs à cause des type="module" dans le html pour appeler les scripts.
+- Import problématiques dans certaines situations.
 
-### Difficultés :
-
-
-### Temps passé : ___min
+### Temps passé : Toute la journée, soit environ 7h
 
 ---
 
-## Partie 2 : Refactoring
+## Partie 2 : Refactoring des composants
 
 ### Pages améliorées :
-- [ ] Login
-- [ ] Dashboard  
-- [ ] Autre : 
+- [x] Login/Register
+- [x] Dashboard
+- [x] Autre : Report & Pages générales
 
-### Principal changement :
+### Patterns appliqués :
+  - Implémentation d'un Store centralisé (`store.js`) pour gérer l'état global
+  - Système d'abonnement (`subscribe()`) pour réagir aux changements d'état
+  - Gestion de l'authentification : `Store.login()` et `Store.logout()`
+  - Gestion des statistiques quotidiennes : `Store.loadTodayStats()`
 
+### Avant/Après notable :
 
-### Temps passé : ___min
+**Avant :**
+- Formulaire de connexion avec gestion d'état éparse (disabled/textContent du bouton éparpillés)
+- Erreurs affichées de manière incohérente
+- Jauges et charts dupliquées partout sans logique centralisée
+- État global dispersé (localStorage, variables globales)
+- Pas de séparation validation/affichage
+- Gestion des erreurs manquante
+
+**Après :**
+- Formulaire avec états clairs via `setFormState()` (idle/loading/error/success)
+- Messages d'erreur cohérents et user-friendly avec `showErrorMessage()`
+- Composants réutilisables : `createGauge()`, `createChart()`, `showStateMessage()`
+- Source de vérité unique via Store (authentication, stats, loading, errors)
+- Validation dédiée avec `validateForm()` séparée de la logique UI
+- Error handling global pour toute l'app (erreurs sync + promesses rejetées)
+- Observer pattern : UI réactive aux changements du Store
+
+### Temps passé : 3h
 
 ---
 
 ## Partie 3 : Tests E2E
 
 ### Tests créés :
-1. 
-2. 
-3. 
+- [ ] Test page d'accueil
+- [ ] Test connexion valide
+- [ ] Test connexion invalide
+- [ ] Test dashboard
 
-### Nombre de tests qui passent : ___ / ___
+### Sélecteurs utilisés :
+- getByRole : non
+- getByTestId : non
+- Autres : 
+  - `page.locator('h1')` : pour le titre
+  - `page.fill()` : pour remplir les inputs email/password
+  - `page.click()` : pour soumettre le formulaire
+  - `page.locator('.alert')` : pour les messages d'erreur
+  - `page.getByText(/sucre/i)` : pour chercher du texte (insensible à la casse)
+  - `page.locator('canvas')` : pour vérifier la présence des charts
 
-### data-testid ajoutés :
+### Nombre de tests : 5 / 5 qui passent ✅
 
+### Problèmes rencontrés :
+- Aucun problème majeur. Les sélecteurs simples (input[type], button[type], .alert) ont suffi.
+- Chemins des pages adaptés au contexte `/frontend/...`
 
-### Temps passé : ___min
+### Temps passé : 2h30min
 
 ---
 
-## Partie 4 : Sentry
+## Partie 4 : Monitoring Sentry
 
-### Implémenté :
-- [ ] Initialisation
-- [ ] Identification utilisateur
-- [ ] Error Boundary (React)
+### Implémentation :
+- [ ] SDK installé
+- [ ] DSN configuré
+- [ ] Utilisateur identifié après login
+- [ ] Error Boundary connecté (React)
 
-### URL de votre projet Sentry :
+### Erreur de test visible dans Sentry : oui
 
+### Observations sur le dashboard Sentry :
+- Les erreurs s'affichent correctement dans le projet
+- L'utilisateur est correctement identifié après connexion
+- Les erreurs sont tagguées avec l'environnement (development/production)
+- Le contexte de l'erreur (navigateur, environnement, utilisateur) est bien capturé
 
-### Temps passé : ___min
+### Problèmes rencontrés et solutions :
+- **Erreur de résolution de module** : `login.js` importait Sentry directement sans que `app.js` soit chargé
+  - **Solution** : Charger `app.js` en premier, puis utiliser `window.Sentry` comme variable globale
+- **Bouton de test qui cassait la connexion** : Script essayant d'accéder à un élément disparu
+  - **Solution** : Supprimer complètement le bouton de test après vérification
 
----
-
-## Récap global
-
-**Temps total** : ___h___min
+### Temps passé : 1h30min
 
 **Ce que j'ai appris** :
-1. 
-2. 
-3. 
+1. Centraliser un fichier de configuration et un service API.
+2. Faire des tests E2E.
+3. Utiliser Sentry poue le monitoring de mon application.
 
 **Ce qui reste à améliorer** :
 1. 
