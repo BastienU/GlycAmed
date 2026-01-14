@@ -801,17 +801,25 @@ npx playwright show-report
 - [ ] Test connexion valide
 - [ ] Test connexion invalide
 - [ ] Test dashboard
-- [ ] Autre : ___
 
 ### Sélecteurs utilisés :
-- getByRole : oui/non
-- getByTestId : oui/non (si oui, lesquels ajoutés ?)
-- Autres : ...
+- getByRole : non
+- getByTestId : non
+- Autres : 
+  - `page.locator('h1')` : pour le titre
+  - `page.fill()` : pour remplir les inputs email/password
+  - `page.click()` : pour soumettre le formulaire
+  - `page.locator('.alert')` : pour les messages d'erreur
+  - `page.getByText(/sucre/i)` : pour chercher du texte (insensible à la casse)
+  - `page.locator('canvas')` : pour vérifier la présence des charts
+
+### Nombre de tests : 5 / 5 qui passent ✅
 
 ### Problèmes rencontrés :
-- ...
+- Aucun problème majeur. Les sélecteurs simples (input[type], button[type], .alert) ont suffi.
+- Chemins des pages adaptés au contexte `/frontend/...`
 
-### Temps passé : ___min
+### Temps passé : 2h30min
 ```
 
 ---
