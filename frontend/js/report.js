@@ -5,6 +5,10 @@ import { CONFIG } from "../../config/constants.js";
 document.addEventListener("DOMContentLoaded", () => {
   const chartsContainer = document.querySelector(".charts-container");
   const stateContainer = document.getElementById("charts-state");
+  let sugarChart = null;
+  let caffeineChart = null;
+  let caloriesChart = null;
+
 
   if (!chartsContainer || !stateContainer) {
     console.error("Containers du dashboard introuvables");
@@ -35,7 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Initialisation des charts
     if (!chartsInitialized) {
-      createChart({
+      sugarChart = createChart({
         canvasId: "sugarChart",
         label: "Sucre",
         current: sugar,
@@ -44,7 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
         color: "#FF6384",
       });
 
-      createChart({
+      caffeineChart = createChart({
         canvasId: "caffeineChart",
         label: "Caféine",
         current: caffeine,
@@ -53,7 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
         color: "#36A2EB",
       });
 
-      createChart({
+      caloriesChart = createChart({
         canvasId: "caloriesChart",
         label: "Calories",
         current: calories,
@@ -63,6 +67,24 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       chartsInitialized = true;
+    } else {
+      sugarChart.data.datasets[0].data = [
+        sugar,
+        Math.max(CONFIG.HEALTH_LIMITS.SUGAR_MAX - sugar, 0)
+      ];
+      sugarChart.update();
+
+      caffeineChart.data.datasets[0].data = [
+        caffeine,
+        Math.max(CONFIG.HEALTH_LIMITS.CAFFEINE_MAX - caffeine, 0)
+      ];
+      caffeineChart.update();
+
+      caloriesChart.data.datasets[0].data = [
+        calories,
+        Math.max(2000 - calories, 0)
+      ];
+      caloriesChart.update();
     }
   });
 
