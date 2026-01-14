@@ -10,7 +10,7 @@ export default defineConfig({
   
   // Lance votre serveur avant les tests
   webServer: {
-    command: 'npm run dev', // Adapter à votre commande
+    command: 'npm run dev',
     url: 'http://localhost:5500',
     reuseExistingServer: !process.env.CI,
   },
